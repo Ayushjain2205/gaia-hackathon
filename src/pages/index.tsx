@@ -1,4 +1,11 @@
 import React, { useState } from "react";
+import {
+  Avatar,
+  Identity,
+  Name,
+  Badge,
+  Address,
+} from "@coinbase/onchainkit/identity";
 
 const CDPAgentComponent = () => {
   const [messages, setMessages] = useState([]);
@@ -35,6 +42,8 @@ const CDPAgentComponent = () => {
 
   return (
     <div className="container mx-auto p-4 max-w-4xl">
+      <Address address="0x02414580c69f83e06FB2158E213E3ED6db7A2785" />
+
       <div className="bg-white rounded-lg shadow-lg p-6">
         <h1 className="text-2xl font-bold mb-6">CDP Agent Interface</h1>
 
