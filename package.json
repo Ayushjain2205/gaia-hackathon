@@ -9,9 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@coinbase/cdp-langchain": "^0.0.9",
     "@coinbase/onchainkit": "^0.36.0",
+    "@langchain/langgraph": "^0.2.32",
+    "@langchain/openai": "^0.3.14",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "langchain": "^0.3.7",
     "lucide-react": "^0.468.0",
     "next": "14.2.20",
     "react": "^18",
