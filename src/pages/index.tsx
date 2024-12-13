@@ -1,92 +1,70 @@
-import React, { useState } from "react";
-import {
-  Avatar,
-  Identity,
-  Name,
-  Badge,
-  Address,
-} from "@coinbase/onchainkit/identity";
+import { MarketPredictionItem } from "@/components/MarketPredictionItem";
 
-const CDPAgentComponent = () => {
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+const marketPredictions = [
+  {
+    question: "Will AI surpass human intelligence by 2030?",
+    endTime: "Ends in 2d 5h 30m",
+    yesShares: 75,
+    noShares: 25,
+    resolved: false,
+  },
+  {
+    question: "Will SpaceX land humans on Mars by 2026?",
+    endTime: "Ends in 1d 12h 45m",
+    yesShares: 40,
+    noShares: 60,
+    resolved: false,
+  },
+  {
+    question: "Will the global average temperature rise by 2°C by 2050?",
+    endTime: "Ends in 3d 8h 15m",
+    yesShares: 80,
+    noShares: 20,
+    resolved: false,
+  },
+  {
+    question: "Will a quantum computer achieve quantum supremacy by 2025?",
+    endTime: "Ended 2 days ago",
+    yesShares: 65,
+    noShares: 35,
+    resolved: true,
+  },
+  {
+    question: "Will renewable energy surpass fossil fuels by 2040?",
+    endTime: "Ends in 5d 3h 20m",
+    yesShares: 70,
+    noShares: 30,
+    resolved: false,
+  },
+  {
+    question: "Will a cure for Alzheimer's be discovered by 2035?",
+    endTime: "Ends in 4d 18h 10m",
+    yesShares: 55,
+    noShares: 45,
+    resolved: false,
+  },
+  {
+    question: "Will self-driving cars become mainstream by 2028?",
+    endTime: "Ended 1 week ago",
+    yesShares: 30,
+    noShares: 70,
+    resolved: true,
+  },
+];
 
-  const handleSendMessage = async () => {
-    if (!input.trim()) return;
-
-    try {
-      setIsLoading(true);
-      const userMessage = { role: "user", content: input };
-      setMessages((prev) => [...prev, userMessage]);
-      setInput("");
-
-      const response = await fetch("/api/cdp-agent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message: input }),
-      });
-
-      const data = await response.json();
-      if (data.responses) {
-        setMessages((prev) => [...prev, ...data.responses]);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+export default function Home() {
   return (
-    <div className="container mx-auto p-4 max-w-4xl">
-      <Address address="0x02414580c69f83e06FB2158E213E3ED6db7A2785" />
-
-      <div className="bg-white rounded-lg shadow-lg p-6">
-        <h1 className="text-2xl font-bold mb-6">CDP Agent Interface</h1>
-
-        <div className="h-96 overflow-y-auto mb-4 bg-gray-50 rounded p-4">
-          {messages.map((message, index) => (
-            <div
-              key={index}
-              className={`mb-4 p-3 rounded ${
-                message.role === "user"
-                  ? "bg-blue-100 ml-auto max-w-[80%]"
-                  : message.role === "assistant"
-                  ? "bg-green-100 max-w-[80%]"
-                  : "bg-gray-100 max-w-[80%]"
-              }`}
-            >
-              <div className="text-sm text-gray-600 mb-1">
-                {message.role.charAt(0).toUpperCase() + message.role.slice(1)}
-              </div>
-              <div>{message.content}</div>
-            </div>
+    <div className="min-h-screen bg-gradient-to-b from-purple-100 to-pink-100">
+      <div className="container mx-auto py-8 px-4">
+        <h1 className="text-4xl font-bold text-center mb-8 text-purple-800">
+          AI-Generated Market Predictions
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {marketPredictions.map((market, index) => (
+            <MarketPredictionItem key={index} {...market} />
           ))}
-        </div>
-
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1 p-2 border rounded"
-            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-          />
-          <button
-            onClick={handleSendMessage}
-            disabled={isLoading}
-            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-300"
-          >
-            Send
-          </button>
         </div>
       </div>
     </div>
   );
-};
-
-export default CDPAgentComponent;
+}
